@@ -67,6 +67,7 @@ Contributions are welcome! If you would like to add a paper, please open a [pull
 - 🔥 **AlphaLedger: Portfolio-Grounded On-Policy Distillation for Regime-Aware Alpha Mining** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.23744)]
 - 🔥 **AlphaDiverse: Post-Training Local Quantitative Research Agents for Diverse Exploration in Alpha Factor Mining** (arXiv, 2026.09) [[Paper](https://arxiv.org/abs/2609.29014)]
 - **FaVOR: LLM-Based Agentic Framework for Factor Mining via Empirical Validation** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.30192)] [[Code](https://github.com/damilab/FaVOR)]
+- **AgonAlpha: Autonomous Alpha Discovery via Prompt Economy and Scalable Agentic Search** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.11250)] [[Code](https://github.com/AutoResearch-Factory/AgonAlpha)]
 - **AlphaSchema: Exploring the Space of Trading Semantics for LLM-Based Alpha Mining** (arXiv, 2026.07) [[Paper](https://arxiv.org/abs/2607.26642)] [[Code](https://github.com/JingyangYi/AlphaSchema)]
 - **AlphaCrafter: Harnessing Multi-Agent Workflows for Cross-Sectional Quantitative Trading** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2605.05580)]
 - **AlphaMemo: Structured Search-Process Memory for Self-Evolving Alpha Mining Agents** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2606.20625)] [[Code](https://github.com/jarrettyu/alphamemo)]
