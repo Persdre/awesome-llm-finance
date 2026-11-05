@@ -1,114 +1,153 @@
-# Awesome LLM Trading [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+# Awesome LLM for Finance [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-Large language models applied to trading and factor research, with the evidence behind each result.
+[![GitHub stars](https://img.shields.io/github/stars/Persdre/awesome-llm-finance?style=flat&logo=github&color=gold)](https://github.com/Persdre/awesome-llm-finance/stargazers)
+[![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/Persdre/awesome-llm-finance/pulls)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
 
-Last updated: 2026.11. ⭐ marks the maintainer's own paper. Nothing here is investment advice.
+A curated list of research papers on **large language models in finance**: auditing and accounting, trading and factor research, compliance, credit, financial analysis, and how to evaluate all of them.
 
-## Contents
+Contributions are welcome! If you would like to add a paper, please open a [pull request](https://github.com/Persdre/awesome-llm-finance/pulls).
 
-- [Key Findings](#key-findings)
-- [Reading the Entries](#reading-the-entries)
-- [Benchmarks and Honest Evaluation](#benchmarks-and-honest-evaluation)
-- [Factor Mining](#factor-mining)
-- [Trading Agents](#trading-agents)
-- [Text and Cross-Stock Signals](#text-and-cross-stock-signals)
-- [Surveys](#surveys)
-- [Related Lists](#related-lists)
+🕒 *Last updated: 2026.11* &nbsp;|&nbsp; 🔥 *recently added* &nbsp;|&nbsp; ⭐ *maintainer's papers* &nbsp;|&nbsp; 🏆 *award-winning papers*
 
-## Key Findings
+---
 
-- **Careful evaluation is hard to pass.** With point-in-time US stocks and full costs, [no active strategy in the suite survives](https://arxiv.org/abs/2608.27734), and a planted leaky oracle with a Sharpe of 35 still passes Deflated Sharpe and PBO.
-- **Paper versions matter.** [QuantaAlpha v1](https://arxiv.org/abs/2602.07085v1) reported IC 0.1501 and ARR 27.75%. [v3](https://arxiv.org/abs/2602.07085v3) reports IC 0.0472 and ARR 4.68% after moving its search gate to a 2021 validation period. An [Orient Securities note](https://quantaalpha.com/documents/orient-20260407-quantaalpha-factor-mining.pdf) had flagged test-segment RankIC driving search in the original code.
-- **Style exposure can look like skill.** In [FactorBench](https://arxiv.org/abs/2610.06947), the residual IC of R&D-Agent falls from 0.0253 to 0.0011 after controlling for measured exposures.
-- **Narrow samples flatter agents.** Over two decades and 100+ symbols, [FINSABER](https://arxiv.org/abs/2505.07078) finds that reported LLM advantages deteriorate significantly.
-- **The filter can matter more than the generator.** Removing the statistical gate in [FaVOR](https://arxiv.org/abs/2608.30192) takes excess IR from 1.53 to 0.15 on CSI 500 and from 1.13 to -0.88 on S&P 500.
+## Table of Contents
 
-## Reading the Entries
+- [1. Surveys & Foundations](#1-surveys--foundations)
+- [2. LLM for Audit & Accounting](#2-llm-for-audit--accounting)
+- [3. LLM for Trading & Investment](#3-llm-for-trading--investment)
+  - [3.1 Trading Agents](#31-trading-agents)
+  - [3.2 Factor Mining](#32-factor-mining)
+  - [3.3 Text & Cross-Stock Signals](#33-text--cross-stock-signals)
+- [4. Compliance & Financial Crime](#4-compliance--financial-crime)
+- [5. Credit & Financial Advice](#5-credit--financial-advice)
+- [6. Financial Analysis & Reporting](#6-financial-analysis--reporting)
+- [7. Evaluation & Benchmarks](#7-evaluation--benchmarks)
+- [8. Related Lists](#8-related-lists)
 
-Each entry is tagged in the same order: market, test window, costs. Entries are newest first.
+---
 
-- `5/15 bp` means 5 bp to buy and 15 bp to sell.
-- `costs not stated` means we could not find it in the current arXiv version. We may have missed it, so corrections are welcome.
-- A `Code` link appears only when we found an official repository.
-- Performance numbers are author-reported backtests unless the entry says otherwise. Protocols differ across papers, so a rerun that disagrees with a paper is a reason to look closer. It does not by itself show the original is wrong.
+## 1. Surveys & Foundations
 
-## Benchmarks and Honest Evaluation
+- **Towards Autonomous Formulaic Alpha Discovery: An Evolutionary Computation Perspective** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.01789)]
+- **Mint-Agent: Introducing Finance-Native Agentic Foundation Models** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.16386)]
+- **Agentic Quantitative Trading: A Survey of Workflows, Systems, and Evaluation** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.31041)]
+- **A Review of Large Language Models for Stock Price Forecasting from a Hedge-Fund Perspective** (arXiv, 2026.04) [[Paper](https://arxiv.org/abs/2605.05211)]
+- **From Deep Learning to LLMs: A survey of AI in Quantitative Investment** (arXiv, 2025.03) [[Paper](https://arxiv.org/abs/2503.21422)]
+- **A Survey of Large Language Models in Finance (FinLLMs)** (arXiv, 2024.02) [[Paper](https://arxiv.org/abs/2402.02315)]
+- 🏆 **FinGPT: Open-Source Financial Large Language Models** (FinLLM Symposium at IJCAI, 2023) [[Paper](https://arxiv.org/abs/2306.06031)]
 
-- [FactorBench](https://arxiv.org/abs/2610.06947) - `S&P 100, HSI, CSI 300, FTSE 100, Nikkei 225` `2024-01 to 2025-10` `10 bp` - Reruns 9 methods across 5 markets with 3 repetitions and finds that no paradigm consistently dominates. Its static universes may add survivorship bias. [Code](https://github.com/ZhuoHan1998/FactorBench-Release)
-- [Agentic Empirical Asset Pricing](https://arxiv.org/abs/2609.00731) - `US equity panels (JKP, CRSP/Compustat)` `2020 to 2025-12` `50 bp per side, diagnostic only` - Introduces SEADS and reruns the discovery process itself on a rolling basis. No single metric ranks the systems consistently.
-- [What Survives Honest Evaluation?](https://arxiv.org/abs/2608.27734) - `453 point-in-time US stocks, 39 ETFs` `2017 to 2025` `commission, spread, impact, borrow` - Excludes look-ahead by construction and counts every trial. No active strategy survives, while passive risk premia are certified.
-- [KTD-Fin](https://arxiv.org/abs/2605.28359) - `A-shares, long-only` `2024-01 to 2026-04, plus 10 short windows` `5/15 bp` - Masks firm identity to control memory leakage. Barra attribution shows returns are largely market and style exposure. [Code](https://github.com/MaYiding/OracleProto)
-- [Look-Ahead-Bench](https://arxiv.org/abs/2601.13770) - `5 US tech stocks` `2021-04 to 2021-09 vs 2024-07 to 2024-12` `costs not stated` - Compares periods before and after model cutoffs. Standard LLMs lose more than 15 percentage points of alpha while point-in-time models hold up. [Code](https://github.com/benstaf/lookaheadbench)
-- [FINSABER](https://arxiv.org/abs/2505.07078) - `US, 100+ symbols` `two decades` `$0.0049 per share` - Tests LLM timing strategies over long horizons and finds them too conservative in bull markets and too aggressive in bear markets. Includes an audit of how short earlier evaluations were. [Code](https://github.com/waylonli/FINSABER)
+## 2. LLM for Audit & Accounting
 
-## Factor Mining
+- 🔥 **Do Social Influence Pressures Move LLM Agents? Evidence from Delegated Audit Judgment** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2611.00508)]
+- **Financial Audit Assistance using Misinformation Detection and Explanation** (arXiv, 2026.07) [[Paper](https://arxiv.org/abs/2607.17797)]
+- **APEX-Accounting** (arXiv, 2026.07) [[Paper](https://arxiv.org/abs/2607.27189)]
+- **FinBalance: A Multi-Document Accounting Reconciliation Benchmark** (arXiv, 2026.06) [[Paper](https://arxiv.org/abs/2606.15949)]
+- **FinVerBench: Benchmark Validity and Calibration in Large Language Model Financial Statement Verification** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2605.29586)]
+- **Automating Financial Statement Audits with Large Language Models** (arXiv, 2025.06) [[Paper](https://arxiv.org/abs/2506.17282)]
 
-- [AlphaLedger](https://arxiv.org/abs/2610.23744) - `A-shares, dynamic pool and point-in-time CSI 500` `2025-01 to 2026-07` `5/15 bp` - Distills portfolio-grounded feedback into a generator. Earns 55.4% annualized on its dynamic universe and 31.6% on CSI 500, where the strongest baseline earns 22.0%.
-- [AlphaRLM](https://arxiv.org/abs/2610.14959) - `CSI 300, CSI 1000, S&P 500` `2021 to 2024` `5/15 bp` - Trains a language model on financial literature for symbolic factors, using five seeds and the same generation budget for LLM baselines.
-- [AlphaDiverse](https://arxiv.org/abs/2609.29014) - `4 A-share universes` `2026-01 to 2026-08, evaluated once` `gross, long-only` - Keeps research feedback in an inner period and freezes the model before a single outer evaluation. Its trained local model reaches RankIC 0.0407 against 0.0398 for GPT-5.5 in the same workflow.
-- [FaVOR](https://arxiv.org/abs/2608.30192) - `CSI 500, S&P 500` `2025` `CSI 500 5/15 bp, S&P 500 sell 5 bp` - States a hypothesis first and then applies a statistical gate, which turns out to carry most of the result. [Code](https://github.com/damilab/FaVOR)
-- [AlphaSchema](https://arxiv.org/abs/2607.26642) - `CSI 300, 5-day target` `2023-01 to 2025-12` `5/15 bp` - Searches over semantic plans and includes reruns of RD-Agent and QuantaAlpha. [Code](https://github.com/JingyangYi/AlphaSchema)
-- [AlphaMemo](https://arxiv.org/abs/2606.20625) - `CSI 500, S&P 500, 20-day target` `2022 to 2025-12` `costs not stated` - Stores search-process memory for self-evolving agents and reruns several baselines. Table values changed between v1 and the current version, so cite the version. [Code](https://github.com/jarrettyu/alphamemo)
-- [AlphaCrafter](https://arxiv.org/abs/2605.05580) - `CSI 300, S&P 500` `paper trading 2026-03 to 2026-06` `CSI 300 2 bp, S&P 500 1 bp` - Paper-trades after all backbone cutoffs. On S&P 500 with Claude Opus 4.6, it reaches Sharpe 1.60 against 1.58 for AlphaAgent on the same backbone.
-- [AlphaLogics](https://arxiv.org/abs/2603.20247) - `CSI 500, S&P 500` `2021-01 to 2024-12` `CSI 500 5/15 bp, S&P 500 sell 5 bp` - Derives market logics before generating factors and aligns budgets across LLM baselines. Its S&P 500 IC of 0.0093 with AR 13.75% is a gap worth inspecting.
-- [FactorEngine](https://arxiv.org/abs/2603.16365) - `CSI 300, CSI 500` `2017-01 to 2024-12` `1.5 bp commission, 5 bp stamp duty, 8 bp slippage` - Has the longest test window here and itemized costs. With an equal information budget it ties AlphaAgent (IC 0.0315 vs 0.0314), and the larger gain (0.0474) comes from research-report seeds.
-- [FactorMiner](https://arxiv.org/abs/2602.14670) - `A-shares at 10 minutes, 64 Binance assets` `2025` `no costs, left to future work` - Combines skills with experience memory and evaluates IC and related diagnostics.
-- [QuantaAlpha](https://arxiv.org/abs/2602.07085) - `CSI 300, transfer to CSI 500 and S&P 500` `2022-01 to 2025-12` `5/15 bp` - Evolves whole research trajectories. Reruns under other protocols give IC 0.0208 in AlphaSchema and S&P 500 AR -8.57% in AlphaRLM. We have not audited the current code. [Code](https://github.com/QuantaAlpha/QuantaAlpha)
-- [Alpha-R1](https://arxiv.org/abs/2512.23515) - `S&P 500, CSI 300, point-in-time membership` `2025` `10 bp two-sided` - Selects factors by market context and reports a rare multiple-testing check, with Deflated Sharpe of 0.39 to 0.85 under N = 101 to 158 trials. [Code](https://github.com/FinStep-AI/Alpha-R1)
-- [CogAlpha](https://arxiv.org/abs/2511.18850) - `CSI 300, also CSI 500, S&P 500, HSI, HSCI` `2021-01 to 2024-12` `5/15 bp` - Evolves factors at the code level. The public repository is a prompt release. [Code](https://github.com/OpenFinMind/CogAlpha_Prompt)
-- [EFS](https://arxiv.org/abs/2507.17211) - `US50, HSI45, CSI 300` `US50 2019 to 2025, others from 2022` `gross, plus a 10 bp block` - Evolves factors for sparse portfolios and adds a post-2025 check to isolate the period after LLM cutoffs.
-- [Navigating the Alpha Jungle](https://arxiv.org/abs/2505.11122) - `CSI 300, CSI 1000, appendix S&P 500` `2021-01 to 2024-11` `15 bp per trade` - Runs Monte Carlo tree search over formulas with LLM refinement.
-- [R&D-Agent(Q)](https://arxiv.org/abs/2505.15155) - `CSI 300, appendix CSI 500 and NASDAQ 100` `2017-01 to 2020-08, appendix 2024 to 2025` `5/15 bp` - Sets the common closed loop of hypothesis, code, backtest and feedback. FactorBench reruns it at raw IC 0.0253 and residual IC 0.0011. [Code](https://github.com/microsoft/RD-Agent)
-- [AlphaAgent](https://arxiv.org/abs/2502.16789) - `CSI 500, S&P 500` `2021-01 to 2025-01` `CSI 500 5/15 bp, S&P 500 sell 5 bp` - Regularizes exploration to counter alpha decay. FactorBench reruns it at raw IC 0.0030 and long-short Sharpe -0.087 ± 0.432. [Code](https://github.com/RndmVariableQ/AlphaAgent)
-- [Alpha-GPT](https://arxiv.org/abs/2308.00016) - `WorldQuant competition` `IQC 2024` `not applicable` - Introduces human-AI interactive alpha mining. Its main evidence is a competition result comparable to top human participants, which cannot be reproduced offline.
+## 3. LLM for Trading & Investment
 
-## Trading Agents
+### 3.1 Trading Agents
 
-These papers test on a handful of symbols over short windows, so read [FINSABER](https://arxiv.org/abs/2505.07078) before their Sharpe ratios.
+- **AI-Trader: Benchmarking Autonomous Agents in Real-Time Financial Markets** (arXiv, 2025.12) [[Paper](https://arxiv.org/abs/2512.10971)] [[Code](https://github.com/HKUDS/AI-Trader)]
+- **QuantHarness: Price-Driven Multi-Agent LLMs for High-Frequency Trading** (arXiv, 2025.09) [[Paper](https://arxiv.org/abs/2509.09995)] [[Code](https://github.com/Y-Research-SBU/QuantHarness)]
+- **Trading-R1: Financial Trading with LLM Reasoning via Reinforcement Learning** (arXiv, 2025.09) [[Paper](https://arxiv.org/abs/2509.11420)] [[Code](https://github.com/TauricResearch/Trading-R1)]
+- **ContestTrade: A Multi-Agent Trading System Based on Internal Contest Mechanism** (arXiv, 2025.08) [[Paper](https://arxiv.org/abs/2508.00554)]
+- **AlphaAgents: Large Language Model based Multi-Agents for Equity Portfolio Constructions** (arXiv, 2025.08) [[Paper](https://arxiv.org/abs/2508.11152)]
+- **TradingAgents: Multi-Agents LLM Financial Trading Framework** (arXiv, 2024.12) [[Paper](https://arxiv.org/abs/2412.20138)] [[Code](https://github.com/TauricResearch/TradingAgents)]
+- **FinCon: A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making** (arXiv, 2024.07) [[Paper](https://arxiv.org/abs/2407.06567)]
+- **A Multimodal Foundation Agent for Financial Trading: Tool-Augmented, Diversified, and Generalist** (arXiv, 2024.02) [[Paper](https://arxiv.org/abs/2402.18485)]
+- **FinMem: A Performance-Enhanced LLM Trading Agent with Layered Memory and Character Design** (arXiv, 2023.11) [[Paper](https://arxiv.org/abs/2311.13743)] [[Code](https://github.com/pipiku915/FinMem-LLM-StockTrading)]
 
-- [AI-Trader](https://arxiv.org/abs/2512.10971) - `US stocks, A-shares, crypto` `2025-10 to 2025-11, live` `costs not stated` - Benchmarks autonomous agents in live markets, which avoids backtest leakage over a window of about two months. [Code](https://github.com/HKUDS/AI-Trader)
-- [Trading-R1](https://arxiv.org/abs/2509.11420) - `large-cap US stocks and ETFs` `2024-06 to 2024-08` `costs not stated` - Trains a reasoning model for trading and reports Sharpe 1.88 on NVDA over three months. [Code](https://github.com/TauricResearch/Trading-R1)
-- [TradingAgents](https://arxiv.org/abs/2412.20138) - `AAPL, NVDA, MSFT, META, GOOGL` `2024-01 to 2024-03` `costs not stated` - Mirrors a trading firm with specialized agents and is a common reference system in this field. [Code](https://github.com/TauricResearch/TradingAgents)
-- [FinCon](https://arxiv.org/abs/2407.06567) - `8 stocks, two 3-stock portfolios` `2022-10 to 2023-06` `costs not stated` - Organizes agents in a manager-analyst hierarchy. The linked repository holds a README and a license. [Code](https://github.com/The-FinAI/FinCon)
-- [FinAgent](https://arxiv.org/abs/2402.18485) - `AAPL, AMZN, GOOGL, MSFT, TSLA, ETHUSD` `2023-06 to 2024-01` `commission rate not found` - Adds chart and other multimodal inputs to a tool-augmented agent.
-- [FinMem](https://arxiv.org/abs/2311.13743) - `5 US stocks, per the FINSABER audit` `2022-10 to 2023-04` `costs not stated` - Gives a trading agent layered memory and a configurable character. [Code](https://github.com/pipiku915/FinMem-LLM-StockTrading)
+### 3.2 Factor Mining
 
-## Text and Cross-Stock Signals
+- 🔥 **AlphaRLM: Aligning Language Models for Literature-Grounded Symbolic Factor Discovery** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.14959)]
+- 🔥 **AlphaLedger: Portfolio-Grounded On-Policy Distillation for Regime-Aware Alpha Mining** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.23744)]
+- 🔥 **AlphaDiverse: Post-Training Local Quantitative Research Agents for Diverse Exploration in Alpha Factor Mining** (arXiv, 2026.09) [[Paper](https://arxiv.org/abs/2609.29014)]
+- **FaVOR: LLM-Based Agentic Framework for Factor Mining via Empirical Validation** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.30192)] [[Code](https://github.com/damilab/FaVOR)]
+- **AlphaSchema: Exploring the Space of Trading Semantics for LLM-Based Alpha Mining** (arXiv, 2026.07) [[Paper](https://arxiv.org/abs/2607.26642)] [[Code](https://github.com/JingyangYi/AlphaSchema)]
+- **AlphaCrafter: Harnessing Multi-Agent Workflows for Cross-Sectional Quantitative Trading** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2605.05580)]
+- **AlphaMemo: Structured Search-Process Memory for Self-Evolving Alpha Mining Agents** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2606.20625)] [[Code](https://github.com/jarrettyu/alphamemo)]
+- **FactorEngine: A Program-level Knowledge-Infused Factor Mining Framework for Quantitative Investment** (ICDM, 2026) [[Paper](https://arxiv.org/abs/2603.16365)]
+- **AlphaLogics: A Market Logic-Driven Multi-Agent System for Scalable and Interpretable Alpha Factor Generation** (arXiv, 2026.03) [[Paper](https://arxiv.org/abs/2603.20247)]
+- **QuantaAlpha: An Evolutionary Framework for LLM-Driven Alpha Mining** (arXiv, 2026.02) [[Paper](https://arxiv.org/abs/2602.07085)] [[Code](https://github.com/QuantaAlpha/QuantaAlpha)]
+- **FactorMiner: A Self-Evolving Agent with Skills and Experience Memory for Financial Alpha Discovery** (arXiv, 2026.02) [[Paper](https://arxiv.org/abs/2602.14670)]
+- **Alpha-R1: Alpha Screening with LLM Reasoning via Reinforcement Learning** (arXiv, 2025.12) [[Paper](https://arxiv.org/abs/2512.23515)] [[Code](https://github.com/FinStep-AI/Alpha-R1)]
+- **Cognitive Alpha Mining via LLM-Driven Code-Based Evolution** (ACL, 2026) [[Paper](https://arxiv.org/abs/2511.18850)] [[Code](https://github.com/OpenFinMind/CogAlpha_Prompt)]
+- **Evolutionary Factor Searching for Sparse Portfolio Optimization Using Large Language Models** (arXiv, 2025.07) [[Paper](https://arxiv.org/abs/2507.17211)]
+- **Navigating the Alpha Jungle: An LLM-Powered MCTS Framework for Formulaic Factor Mining** (arXiv, 2025.05) [[Paper](https://arxiv.org/abs/2505.11122)]
+- **R&D-Agent-Quant: A Multi-Agent Framework for Data-Centric Factors and Model Joint Optimization** (NeurIPS, 2025) [[Paper](https://arxiv.org/abs/2505.15155)] [[Code](https://github.com/microsoft/RD-Agent)]
+- **AlphaAgent: LLM-Driven Alpha Mining with Regularized Exploration to Counteract Alpha Decay** (arXiv, 2025.02) [[Paper](https://arxiv.org/abs/2502.16789)] [[Code](https://github.com/RndmVariableQ/AlphaAgent)]
+- **LLMFactor: Extracting Profitable Factors through Prompts for Explainable Stock Movement Prediction** (Findings of ACL, 2024) [[Paper](https://arxiv.org/abs/2406.10811)]
+- **QuantAgent: Seeking Holy Grail in Trading by Self-Improving Large Language Model** (arXiv, 2024.02) [[Paper](https://arxiv.org/abs/2402.03755)]
+- **Alpha-GPT: Human-AI Interactive Alpha Mining for Quantitative Investment** (EMNLP Demo, 2025) [[Paper](https://arxiv.org/abs/2308.00016)]
 
-- ⭐ [CrossAlpha](https://github.com/Persdre/CrossAlpha) - `US, Japan, Taiwan, South Korea, Hong Kong` `2015 to 2026 price panel` `2 bp one-way` - Provides an annual-report benchmark for cross-market factor research, published in Findings of EMNLP 2026. No independent rerun that we know of.
-- [Cross-Stock Predictability via LLM-Augmented Semantic Networks](https://arxiv.org/abs/2604.19476) - `S&P 500 constituent list` `2011 to 2019` `costs not stated` - Filters 10-K similarity edges with an LLM, lifting long-short Sharpe from 0.742 to 0.820.
-- [Can ChatGPT Forecast Stock Price Movements?](https://arxiv.org/abs/2304.07619) - `US stocks` `2021-10 to 2024-05` `34 bp per day before costs` - Links headline scores to next-day returns. The authors say exploiting this is only feasible for participants with very low costs, such as market makers.
+### 3.3 Text & Cross-Stock Signals
 
-## Surveys
+- ⭐ **CrossAlpha: An Annual-Report Benchmark for Cross-Market Factor Research with LLM Agents** (Findings of EMNLP, 2026) [[Code](https://github.com/Persdre/CrossAlpha)]
+- **Cross-Stock Predictability via LLM-Augmented Semantic Networks** (arXiv, 2026.04) [[Paper](https://arxiv.org/abs/2604.19476)]
+- **From Text to Alpha: Can LLMs Track Evolving Signals in Corporate Disclosures?** (arXiv, 2025.10) [[Paper](https://arxiv.org/abs/2510.03195)]
+- **Can ChatGPT Forecast Stock Price Movements? Return Predictability and Large Language Models** (arXiv, 2023.04) [[Paper](https://arxiv.org/abs/2304.07619)]
 
-- [Agentic Quantitative Trading](https://arxiv.org/abs/2608.31041) - Surveys workflows, systems and evaluation for agentic trading.
-- [Towards Autonomous Formulaic Alpha Discovery](https://arxiv.org/abs/2608.01789) - Takes an evolutionary computation view and warns that repeated optimization against the same setup can create collective overfitting.
-- [Large Language Models for Stock Price Forecasting from a Hedge-Fund Perspective](https://arxiv.org/abs/2605.05211) - Reviews LLM forecasting from a practitioner's angle.
-- [From Deep Learning to LLMs](https://arxiv.org/abs/2503.21422) - Surveys AI in quantitative investment across both eras.
+## 4. Compliance & Financial Crime
 
-## Related Lists
+- 🔥 **AMLBench: A Real-Incident Benchmark for Agentic Blockchain Anti-Money Laundering** (arXiv, 2026.11) [[Paper](https://arxiv.org/abs/2611.02530)]
+- **ReguSim: Evaluating LLM Agent Rule Grounding in Financial Compliance** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.19974)]
+- **FinGuard: Detecting Financial Regulatory Non-Compliance in LLM Interactions** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2605.29427)]
+- **MFMDQwen: Multilingual Financial Misinformation Detection Based on Large Language Model** (arXiv, 2026.04) [[Paper](https://arxiv.org/abs/2604.18272)]
 
-- [Awesome LLM Quantitative Trading Papers](https://github.com/Tom-roujiang/Awesome-LLM-Quantitative-Trading-Papers) - Broad and well-organized recent papers, including financial benchmarks.
-- [Awesome Trading Agents](https://github.com/LLMQuant/awesome-trading-agents) - Open-source agents, MCP servers and skills.
-- [Awesome AI in Finance](https://github.com/georgezouq/awesome-ai-in-finance) - AI in finance more broadly.
-- [Awesome LLM Trading Agents](https://github.com/bettyguo/awesome-llm-trading-agents) - Frameworks, datasets and common methodology pitfalls.
-- [Awesome Quant](https://github.com/wilsonfreitas/awesome-quant) - Libraries and resources for quantitative finance.
+## 5. Credit & Financial Advice
 
-## Contributing
+- 🔥 **The Indian Financial Automated Advice Bias (IFAAB) Dataset : Auditing Socioeconomic and Demographic Disparities in LLM-Generated Financial Advice in India** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.38239)]
+- **LendNova: Towards Automated Credit Risk Assessment with Language Models** (AAAI Workshop on Agentic AI in Financial Services, 2026) [[Paper](https://arxiv.org/abs/2601.02573)]
+- **MASCA: LLM based-Multi Agents System for Credit Assessment** (NeurIPS GenAI in Finance Workshop, 2025.07) [[Paper](https://arxiv.org/abs/2507.22758)]
 
-Contributions are welcome, including corrections from authors. Please read the [contribution guidelines](contributing.md).
+## 6. Financial Analysis & Reporting
 
-## Footnotes
+- 🔥 **A Citation-Grounded Benchmark for Trustworthy Earnings Call Transcript Analysis with Large Language Models** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.00969)]
+- 🔥 **EPSBench: Benchmarking LLM Agents for Earnings Forecasting** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.38293)]
+- 🔥 **AnalysisBank: An Expert Analysis Pattern Library for Financial Report Generation** (EMNLP, 2026) [[Paper](https://arxiv.org/abs/2609.00818)]
+- **ESG-Bench: Benchmarking Long-Context ESG Reports for Hallucination Mitigation** (AAAI, 2026) [[Paper](https://arxiv.org/abs/2603.13154)]
+- **ESGLens: An LLM-Based RAG Framework for Interactive ESG Report Analysis and Score Prediction** (arXiv, 2026.03) [[Paper](https://arxiv.org/abs/2604.19779)]
+- **EDINET-Bench: Evaluating LLMs on Complex Financial Tasks using Japanese Financial Statements** (ICLR, 2026) [[Paper](https://arxiv.org/abs/2506.08762)]
 
-Papers awaiting annotation are in the [backlog](backlog.md).
+## 7. Evaluation & Benchmarks
 
-To cite this list:
+- 🔥 **Agent Policy-Value Audit: Separating Transition Composition from Event Selection in Financial LLM Agents** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.04040)]
+- 🔥 **FactorBench: A Portfolio-Aware Benchmark for Automated Factor Mining** (arXiv, 2026.10) [[Paper](https://arxiv.org/abs/2610.06947)] [[Code](https://github.com/ZhuoHan1998/FactorBench-Release)]
+- 🔥 **RiskReason: A Benchmark for Verifiable Financial Risk Reasoning** (Workshop on LLMs and Generative AI for Finance, 2026.10) [[Paper](https://arxiv.org/abs/2611.01236)]
+- 🔥 **Agentic Empirical Asset Pricing: Methodological Foundations** (arXiv, 2026.09) [[Paper](https://arxiv.org/abs/2609.00731)]
+- **V-FiLLM: Verified Financial LLM Reasoning Benchmark** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.11047)]
+- **What survives honest evaluation? Leakage-safe, search-aware assessment of LLM-driven trading strategy discovery** (arXiv, 2026.08) [[Paper](https://arxiv.org/abs/2608.27734)]
+- **From Knowing to Doing: A Memory-Controlled Benchmark for LLM Trading Agents on Stock Markets** (arXiv, 2026.05) [[Paper](https://arxiv.org/abs/2605.28359)] [[Code](https://github.com/MaYiding/OracleProto)]
+- **FinTradeBench: A Financial Reasoning Benchmark for LLMs** (arXiv, 2026.03) [[Paper](https://arxiv.org/abs/2603.19225)]
+- **FIRE: A Comprehensive Benchmark for Financial Intelligence and Reasoning Evaluation** (arXiv, 2026.02) [[Paper](https://arxiv.org/abs/2602.22273)]
+- **Look-Ahead-Bench: a Standardized Benchmark of Look-ahead Bias in Point-in-Time LLMs for Finance** (arXiv, 2026.01) [[Paper](https://arxiv.org/abs/2601.13770)] [[Code](https://github.com/benstaf/lookaheadbench)]
+- **Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?** (KDD Datasets & Benchmarks, 2026) [[Paper](https://arxiv.org/abs/2505.07078)] [[Code](https://github.com/waylonli/FINSABER)]
+
+## 8. Related Lists
+
+- [Awesome LLM Quantitative Trading Papers](https://github.com/Tom-roujiang/Awesome-LLM-Quantitative-Trading-Papers)
+- [Awesome Trading Agents](https://github.com/LLMQuant/awesome-trading-agents)
+- [Awesome AI in Finance](https://github.com/georgezouq/awesome-ai-in-finance)
+- [Awesome Quant](https://github.com/wilsonfreitas/awesome-quant)
+- [Awesome LLM-based Human Simulation](https://github.com/Persdre/awesome-llm-human-simulation)
+
+## Acknowledgement
+
+This repository is built and maintained by [Qian Wang](https://persdre.github.io/). Thanks to the maintainers of the lists above.
+
+## Citation
+
+If you find this repository useful, please consider citing our paper:
 
 ```bibtex
-@misc{wang2024awesomellmtrading,
-  title        = {Awesome LLM Trading},
-  author       = {Wang, Qian},
-  year         = {2024},
-  howpublished = {\url{https://github.com/Persdre/awesome-llm-trading}}
+@inproceedings{wang2026crossalpha,
+  title     = {CrossAlpha: An Annual-Report Benchmark for Cross-Market Factor Research (with LLM Agents)},
+  author    = {Wang, Qian and Tong, Zhongyi and Chen, Nuo and Wu, Zhaomin and He, Bingsheng},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2026},
+  year      = {2026}
 }
 ```
