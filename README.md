@@ -109,6 +109,6 @@ To cite this list:
   title        = {Awesome LLM Trading},
   author       = {Wang, Qian},
   year         = {2024},
-  howpublished = {\url{https://github.com/Persdre/Awesome-LLM-Trading-Papers}}
+  howpublished = {\url{https://github.com/Persdre/awesome-llm-trading}}
 }
 ```
